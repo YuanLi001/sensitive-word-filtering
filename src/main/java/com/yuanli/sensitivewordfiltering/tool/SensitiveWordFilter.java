@@ -1,11 +1,14 @@
 package com.yuanli.sensitivewordfiltering.tool;
 
+import cn.hutool.dfa.WordTree;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -15,78 +18,17 @@ import java.util.Set;
  */
 @Component
 public class SensitiveWordFilter {
-//    public static void main(String[] args) throws IOException {
-//        String fileName = "D:\\IDEA\\SoftwareTest\\sensitive-word-filtering\\src\\main\\java\\com\\yuanli\\sensitivewordfiltering\\tool\\sensitive_words.txt";
-//        BufferedReader reader = new BufferedReader(new FileReader(fileName));
-////        StringBuilder stringBuilder = new StringBuilder();
-//        String line;
-//        long startTime=System.currentTimeMillis();   //获取开始时间
-//        line = reader.readLine();
-//        long endTime=System.currentTimeMillis(); //获取结束时间
-//        System.out.println("程序运行时间： "+(endTime-startTime)+"ms");
-////        if ((line = reader.readLine()) != null) {
-////
-////        }
-//
-////        line.split(/)
-////        System.out.println(line);
-//
-//        reader.close();
-//    }
-//48603
 
+    @Autowired
+    WordTree wordTree;
 
-    public static void main(String[] args) throws IOException {
-        String fileName = "D:\\IDEA\\SoftwareTest\\sensitive-word-filtering\\src\\main\\java\\com\\yuanli\\sensitivewordfiltering\\tool\\sensitive_words_lines.txt";
-        BufferedReader reader = new BufferedReader(new FileReader(fileName));
-        StringBuilder stringBuilder = new StringBuilder();
-        String line;
-//        long startTime=System.currentTimeMillis();   //获取开始时间
-        while ((line = reader.readLine()) != null){
-            if(line.length()>30){
-                continue;
-            }
-            stringBuilder.append(line);
-            stringBuilder.append(',');
-        }
-//            line = reader.readLine();
-//        long endTime=System.currentTimeMillis(); //获取结束时间
-//        System.out.println("程序运行时间： "+(endTime-startTime)+"ms");
-//        if ((line = reader.readLine()) != null) {
-//
-//        }
-
-//        line.split(/)
-//        System.out.println(line);
-        System.out.println(stringBuilder);
-        reader.close();
-    }
-
-//    public static void main(String[] args) throws IOException {
-//        String fileName = "D:\\IDEA\\SoftwareTest\\sensitive-word-filtering\\src\\main\\java\\com\\yuanli\\sensitivewordfiltering\\tool\\qwe.txt";
-//        BufferedReader reader = new BufferedReader(new FileReader(fileName));
-//        StringBuilder stringBuilder = new StringBuilder();
-//        String line;
-////        long startTime=System.currentTimeMillis();   //获取开始时间
-//        line = reader.readLine();
-////        long endTime=System.currentTimeMillis(); //获取结束时间
-////        System.out.println("程序运行时间： "+(endTime-startTime)+"ms");
-//        String[] split = line.split(",");
-//        System.out.println(split[0]);
-//        System.out.println(split[split.length-1]);
-//
-//        reader.close();
-//    }
-//
-//    //文件内容为一行
-////    public String[] getSensitiveWords(String fileName){
-////
-////    }
-
-
-
-
-    public String[] getSensitiveWordsByFileName(String fileName) {
+    /**
+     * 从文件中读取敏感词
+     * @param fileName 文件路径
+     * @param delimiter 敏感词分隔符 如：","
+     * @return
+     */
+    public String[] getSensitiveWordsByFileName(String fileName,String delimiter) {
         BufferedReader reader = null;
         StringBuilder stringBuilder=null;
         try {
@@ -106,24 +48,19 @@ public class SensitiveWordFilter {
                 e.printStackTrace();
             }
         }
-        String[] words = stringBuilder.toString().split(",");
+        String[] words = stringBuilder.toString().split(delimiter);
         return words;
     }
 
-//    public static void main(String[] args) {
-//        String fileName="D:\\IDEA\\SoftwareTest\\sensitive-word-filtering\\src\\main\\java\\com\\yuanli\\sensitivewordfiltering\\tool\\qwe.txt";
-//        String[] words =getSensitiveWordsByFileName(fileName);
-//        System.out.println(words[999]);
-//        System.out.println(words[1000]);
-//        System.out.println(words[1001]);
+    //返回所有的敏感词 or null
+    public List<String> getAllSensitiveWords(String text){
+        List<String> list = wordTree.matchAll(text, -1, false, false);
+        return list;
+    }
+
+    //返回字符串中包含的第一个敏感词，否则返回null
+//    public String getFirstSensitiveWord(String str){
 //
-//        System.out.println(words.length);
-//        System.out.println(words[0]);
-//        System.out.println(words[48602]);
 //    }
 
-//    //返回所有的敏感词 or null
-//    public Set<String> getAllWords(String str){
-//
-//    }
 }
