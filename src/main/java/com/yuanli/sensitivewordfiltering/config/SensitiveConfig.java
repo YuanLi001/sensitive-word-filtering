@@ -23,11 +23,14 @@ public class SensitiveConfig {
 
     @Bean
     public WordTree wordTree(){
+        long startTime=System.currentTimeMillis();   //获取开始时间
         WordTree wordTree=new WordTree();
         List<OneWord> allWords = wordDao.getAllWords();
         for (int i = 0; i < allWords.size(); i++) {
             wordTree.addWord(allWords.get(i).getWord());
         }
+        long endTime=System.currentTimeMillis(); //获取结束时间
+        System.out.println("程序运行时间： "+(endTime-startTime)+"ms");
         return wordTree;
     }
 

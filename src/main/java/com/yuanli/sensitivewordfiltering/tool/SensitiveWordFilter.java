@@ -59,8 +59,19 @@ public class SensitiveWordFilter {
     }
 
     //返回字符串中包含的第一个敏感词，否则返回null
-//    public String getFirstSensitiveWord(String str){
-//
-//    }
+    public String getFirstSensitiveWord(String text){
+        return wordTree.match(text);
+    }
+
+    //将字符串中的敏感词替换成指定符号
+    public String sensitiveWordReplacedByChar(String text,char ch){
+        String str=""+ch+ch;
+        String resultStr=text;
+        List<String> allSensitiveWords = getAllSensitiveWords(text);
+        for(String s:allSensitiveWords){
+            resultStr= resultStr.replace(s,str);
+        }
+        return resultStr;
+    }
 
 }
