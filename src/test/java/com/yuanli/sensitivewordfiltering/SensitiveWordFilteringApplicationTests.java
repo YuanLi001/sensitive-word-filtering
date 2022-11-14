@@ -20,11 +20,6 @@ class SensitiveWordFilteringApplicationTests {
     SensitiveWordFilter sensitiveWordFilter;
 
     @Test
-    void contextLoads() {
-
-    }
-
-    @Test
     void initializationByFileNameTest() {
         String fileName="D:\\IDEA\\SoftwareTest\\sensitive-word-filtering\\src\\main\\java\\com\\yuanli\\sensitivewordfiltering\\tool\\myku.txt";
         String[] words = sensitiveWordFilter.getSensitiveWordsByFileName(fileName,",");
